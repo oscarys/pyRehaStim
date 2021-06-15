@@ -6,6 +6,7 @@ Based on protocol docs
 Oscar Yanez-Suarez, LINI, 2021
 oyanez@izt.uam.mx
 """
+import sys
 import serial
 
 class pyRehaStimNode():
@@ -43,3 +44,10 @@ class pyRehaStimNode():
                 break
             else:
                 self.port.write('fdt'.encode())
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print(f'{sys.argv[0]} device')
+    else:
+        node = pyRehaStimNode(sys.argv[1])
+        node.__full_duplex_test__()
