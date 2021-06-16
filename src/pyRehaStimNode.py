@@ -41,7 +41,10 @@ class pyRehaStimNode():
         self.packet_count = (self.packet_count + 1) % 256
 
     def receive_packet(self):
-        if self.port.read() == b'\xf0':
-            return b'\xf0' + self.port.readline()
+        if (packet := self.port.read()) == b'\xf0':
+            while (byte := self.port.read()) != b'\x0f':
+                packet += byte
+                print(packet)
+            return packet + b'x0f'
         else:
             return b''
