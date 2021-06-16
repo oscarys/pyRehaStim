@@ -64,7 +64,7 @@ class pyRehaStimPacket:
         trail = [pyRehaStimPacket.STOP_BYTE]
         self.__packet_array = lead + self.__payload + trail
         # Convert packet array to bytes
-        self.packet = b''.join([byte.to_bytes(1, 'little') for byte in self.__packet_array])
+        self.packet_bytes = b''.join([byte.to_bytes(1, 'little') for byte in self.__packet_array])
 
     def get_hex_packet(self):
         """
