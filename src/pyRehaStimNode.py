@@ -38,6 +38,7 @@ class pyRehaStimNode():
 
     def send_packet(self, packet):
         self.port.write(packet.packet_bytes)
+        self.packet_count = (self.packet_count + 1) % 256
 
     def receive_packet(self):
         return self.port.readline()
