@@ -59,13 +59,13 @@ class rsComm():
         # Read port stream
         packet = self.port.read()
         # If it is a start byte, collect packet
-        if packet == rsPacket.START_BYTE:
+        if packet == rsp.rsPacket.START_BYTE:
             # Collect bytes until stop byte
             byte = self.port.read()
-            while byte != rsPacket.STOP_BYTE:
+            while byte != rsp.rsPacket.STOP_BYTE:
                 packet += byte
                 byte = self.port.read()
-            return packet + rsPacket.STOP_BYTE
+            return packet + rsp.rsPacket.STOP_BYTE
         else:
             return b''
 
