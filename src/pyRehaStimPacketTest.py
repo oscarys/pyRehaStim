@@ -26,6 +26,6 @@ else:
             if packet_bytes:
                 pid, cmd = rhpacket.pyRehaStimPacket.parse_packet(packet_bytes)
                 if cmd == rhpacket.pyRehaStimPacket.INIT:
-                    print(f'Sending INITACK {node.packet_count}')
-                    node.send_packet(rhpacket.pyRehaStimInitAckPacket(node.packet_count))
+                    print(f'Sending INITACK {pid}')
+                    node.send_packet(rhpacket.pyRehaStimInitAckPacket(pid))
                     break
