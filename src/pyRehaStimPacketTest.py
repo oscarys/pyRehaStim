@@ -15,6 +15,6 @@ else:
     else:
         while True:
             packet_bytes = node.receive_packet()
-            if msg:
+            if packet_bytes:
                 print(packet_bytes)
                 rhpacket.pyRehaStimPacket.parse_packet(packet_bytes)
