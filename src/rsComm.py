@@ -25,7 +25,7 @@ class rsComm():
 
     SETTINGS = {
                 'bytesize': serial.EIGHTBITS,
-                'baudrate': 115200, #460800,
+                'baudrate': 460800,
                 'stopbits': serial.STOPBITS_ONE,
                 'timeout': 0.1,
                 'parity': serial.PARITY_EVEN
