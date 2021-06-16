@@ -46,7 +46,6 @@ class pyRehaStimNode():
             byte = self.port.read()
             while byte != b'\x0f':
                 packet += byte
-                print(packet)
                 byte = self.port.read()
             return packet + b'x0f'
         else:
