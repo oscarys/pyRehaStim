@@ -11,10 +11,10 @@ else:
     node = rhnode.pyRehaStimNode(sys.argv[2])
     packet = rhpacket.pyRehaStimInitPacket(node.packet_count)
     if sys.argv[1] == 'send':
-        node.send(packet.packet)
+        node.send_packet(packet)
     else:
         while True:
-            msg = node.receive()
+            packet_bytes = node.receive_packet()
             if msg:
-                print(msg)
-                rhpacket.pyRehaStimPacket.parse_packet(msg)
+                print(packet_bytes)
+                rhpacket.pyRehaStimPacket.parse_packet(packet_bytes)

@@ -36,8 +36,8 @@ class pyRehaStimNode():
         """
         self.port.close()
 
-    def send(self, packet_bytes):
-        self.port.write(packet_bytes)
+    def send_packet(self, packet):
+        self.port.write(packet.packet_bytes)
 
-    def receive(self):
-        return self.port.readline().decode().strip()
+    def receive_packet(self):
+        return self.port.readline()
