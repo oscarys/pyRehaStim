@@ -25,7 +25,7 @@ class rsComm():
 
     SETTINGS = {
                 'bytesize': serial.EIGHTBITS,
-                'baudrate': 460800,
+                'baudrate': 115200, #460800,
                 'stopbits': serial.STOPBITS_ONE,
                 'timeout': 0.1,
                 'parity': serial.PARITY_EVEN
@@ -87,6 +87,8 @@ if __name__ == '__main__':
             last_type = list(rsp.rsPacket.TYPES)[-1]
             type = ''
             while type != last_type:
-                packet = rsp.rsPacket.parse_packet(node.receive_packet())
-                print('Receiving ' + str(packet))
-                type = packet.packet_type
+                bytes = node.receive_packet()
+                if bytes:
+                    packet = rsp.rsPacket.parse_packet(-1, bytes)
+                    print('Receiving ' + str(packet))
+                    type = packet.packet_type
