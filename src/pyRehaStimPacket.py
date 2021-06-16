@@ -37,7 +37,6 @@ class pyRehaStimPacket:
     MAX_PACKET_BYTES = 69
 
     def parse_packet(packet):
-        print(packet)
         lead = packet[0:5]
         payload = packet[5:-1]
         trail = packet[-1]
