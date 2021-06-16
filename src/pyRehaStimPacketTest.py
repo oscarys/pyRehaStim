@@ -12,12 +12,13 @@ else:
     packet = rhpacket.pyRehaStimInitPacket(node.packet_count)
     if sys.argv[1] == 'stimulator':
         while True:
+            print(f'Sending INIT {node.packet_count}')
             node.send_packet(rhpacket.pyRehaStimInitPacket(node.packet_count))
             packet_bytes = node.receive_packet()
             if packet_bytes:
-                cmd = rhpacket.pyRehaStimPacket.parse_packet(packet_bytes)
+                pid, cmd = rhpacket.pyRehaStimPacket.parse_packet(packet_bytes)
                 if cmd == rhpacket.pyRehaStimPacket.INITACK:
-                    print('INITACK received')
+                    print(f'INITACK {pid} received')
                     break
     if sys.argv[1] == 'controller':
         while True:
@@ -25,6 +26,6 @@ else:
             if packet_bytes:
                 cmd = rhpacket.pyRehaStimPacket.parse_packet(packet_bytes)
                 if cmd == rhpacket.pyRehaStimPacket.INIT:
+                    print(f'Sending INITACK {node.packet_count}}')
                     node.send_packet(rhpacket.pyRehaStimInitAckPacket(node.packet_count))
-                    print('INITACK sent')
                     break

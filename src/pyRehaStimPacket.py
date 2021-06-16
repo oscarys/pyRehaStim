@@ -41,7 +41,7 @@ class pyRehaStimPacket:
         lead = packet[0:5]
         payload = packet[5:-1]
         trail = packet[-1]
-        return payload[1]
+        return payload[0], payload[1]
 
     def stuff_byte(self, byte):
         """
