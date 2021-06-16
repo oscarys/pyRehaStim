@@ -18,36 +18,26 @@ class pyRehaStimNode():
                 'timeout': 0.1,
                 'parity': serial.PARITY_EVEN
                }
-    # Protocol constants
-    START_BYTE = 0xF0
-    STOP_BYTE  = 0x0F
-    STUFFING_BYTE = 0x81
-    STUFFING_KEY = 0x55
-    MAX_PACKET_BYTES = 69
 
     def __init__(self, port_path):
         """
-        port_path: serial device system path
+        open and configure port
+
+        * port_path: serial device system path
         """
         self.port_path = port_path
         self.port = serial.Serial(self.port_path)
         self.port.apply_settings(pyRehaStimNode.SETTINGS)
+        self.packet_count = 0
 
     def __del__(self):
+        """
+        close port
+        """
         self.port.close()
 
-    def __full_duplex_test__(self):
-        while True:
-            msg = self.port.readline().decode().strip()
-            if msg == 'fdt':
-                print('fdt received')
-                break
-            else:
-                self.port.write('fdt'.encode())
+    def send(self, packet_bytes):
+        self.port.write(packet_bytes)
 
-if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print(f'{sys.argv[0]} device')
-    else:
-        node = pyRehaStimNode(sys.argv[1])
-        node.__full_duplex_test__()
+    def receive(self):
+        return self.port.readline().decode().strip()
