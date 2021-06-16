@@ -16,7 +16,7 @@ else:
             packet_bytes = node.receive_packet()
             if packet_bytes:
                 cmd = rhpacket.pyRehaStimPacket.parse_packet(packet_bytes)
-                if cmd == pyRehaStimPacket.INITACK:
+                if cmd == rhpacket.pyRehaStimPacket.INITACK:
                     print('INITACK received')
                     break
     if sys.argv[1] == 'controller':
@@ -24,7 +24,7 @@ else:
             packet_bytes = node.receive_packet()
             if packet_bytes:
                 cmd = rhpacket.pyRehaStimPacket.parse_packet(packet_bytes)
-                if cmd == pyRehaStimPacket.INIT:
+                if cmd == rhpacket.pyRehaStimPacket.INIT:
                     node.send_packet(rhpacket.pyRehaStimInitAckPacket(node.packet_count))
                     print('INITACK sent')
                     break
