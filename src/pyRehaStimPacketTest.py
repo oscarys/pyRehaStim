@@ -13,4 +13,8 @@ else:
     if sys.argv[1] == 'send':
         node.send(packet.packet)
     else:
-        rhpacket.pyRehaStimPacket.parse_packet(node.receive())
+        while True:
+            msg = node.receive()
+            if msg:
+                print(msg)
+                rhpacket.pyRehaStimPacket.parse_packet(msg)
