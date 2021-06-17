@@ -112,25 +112,14 @@ class rsPacket:
 # Module testing
 if __name__ == '__main__':
     for i, type in enumerate(rsPacket.TYPES):
+        # Create each packet with arbitrary payload data
         packet = rsPacket(i, type, [100 + i, 101 + i])
         print(packet)
+        # Re-parse packet and display for comparison
         parsed_packet = rsPacket.parse_packet(i, packet.get_packet_as_bytes())
         print(parsed_packet)
 
 
-#
-#     def get_hex_packet(self):
-#         """
-#         Packet array getter as hex strings
-#         """
-#         return [hex(byte) for byte in self.__packet_array]
-#
-# class pyRehaStimInitPacket(pyRehaStimPacket):
-#
-#     def __init__(self, packet_id):
-#         payload = [packet_id, pyRehaStimPacket.INIT, pyRehaStimPacket.VERSION]
-#         super().__init__(packet_id, payload)
-#
 # class pyRehaStimInitAckPacket(pyRehaStimPacket):
 #
 #     def __init__(self, packet_id):
