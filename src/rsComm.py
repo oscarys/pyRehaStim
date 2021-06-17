@@ -31,6 +31,10 @@ class rsComm():
                 'parity': serial.PARITY_EVEN
                }
 
+    # Packet related constants
+    START_BYTE = rsp.rsPacket.START_BYTE.to_bytes(1, 'little')
+    STOP_BYTE = rsp.rsPacket.STOP_BYTE.to_bytes(1, 'little')
+
     ### Instance methods
 
     # Constructor from device path
@@ -59,13 +63,17 @@ class rsComm():
         # Read port stream
         packet = self.port.read()
         # If it is a start byte, collect packet
-        if packet == rsp.rsPacket.START_BYTE:
-            # Collect bytes until stop byte
-            byte = self.port.read()
-            while byte != rsp.rsPacket.STOP_BYTE:
-                packet += byte
-                byte = self.port.read()
-            return packet + rsp.rsPacket.STOP_BYTE
+        if packet == self.START_BYTE:
+            # Collect header bytes
+            for i in range(4):
+                packet += self.port.read()
+            # Collect data bytes
+            datalength = rsp.rsPacket.stuff_byte(packet[-1])
+            for i in range(datalength):
+                packet += self.port.read()
+            # Collect stop byte
+            packet += self.port.read()
+            return packet
         else:
             return b''
 
@@ -89,6 +97,6 @@ if __name__ == '__main__':
             while type != last_type:
                 bytes = node.receive_packet()
                 if bytes:
-                    packet = rsp.rsPacket.parse_packet(-1, bytes)
+                    packet = rsp.rsPacket.parse_packet(0, bytes)
                     print('Receiving ' + str(packet))
                     type = packet.packet_type
