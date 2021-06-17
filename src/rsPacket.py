@@ -56,7 +56,6 @@ class rsPacket:
         packet_lead = [byte for byte in bytes[0:5]]
         packet_payload = [byte for byte in bytes[5:-1]]
         packet_trail = [bytes[-1]]
-        print(packet_lead+packet_payload+packet_trail)
         # Compute stuffed payload checksum and length
         checksum = rsPacket.stuff_byte(crccheck.crc.Crc8.calc(packet_payload))
         datalength = rsPacket.stuff_byte(len(packet_payload))
