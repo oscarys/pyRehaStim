@@ -10,10 +10,16 @@ Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 """
 # System library
 import sys
+# Time control library
+import time
 
 # RehaStim packet/comm libraries
 import rsPacket as rsp
 import rsComm as rsc
+
+# Simulator parameters
+INIT_REPETITION_TIME = 500
+WATCHDOG_TIMEOUT = 1200
 
 # Check command line args
 if len(sys.argv) != 2:
@@ -36,3 +42,4 @@ else:
             print('Receiving ' + str(packet))
             if packet.packet_type == 'InitAck':
                 break
+        time.sleep(INIT_REPETITION_TIME/1000)

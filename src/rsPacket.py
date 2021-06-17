@@ -117,10 +117,3 @@ if __name__ == '__main__':
         # Re-parse packet and display for comparison
         parsed_packet = rsPacket.parse_packet(i, packet.get_packet_as_bytes())
         print(parsed_packet)
-
-
-# class pyRehaStimInitAckPacket(pyRehaStimPacket):
-#
-#     def __init__(self, packet_id):
-#         payload = [packet_id, pyRehaStimPacket.INITACK, pyRehaStimPacket.INITACK_RESULT_OK]
-#         super().__init__(packet_id, payload)
