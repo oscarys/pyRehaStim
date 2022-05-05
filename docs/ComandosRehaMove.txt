@@ -1,0 +1,66 @@
+StartByte    = 240 => 0xF0
+StopByte     = 15  => 0x0F
+StuffingByte = 129 => 0x81
+
+#Comandos
+#Todos los comandos inician con:
+ Constants =  StartByte | StuffingByte | Checksum | StuffingByte | DataLength |
+                0xf0        0x81           -          0x81            -
+
+Checksum: Numero hexadecimal que se forma con el residuo de la division entre el dato de entrada
+          correspondiente a los valores de PacketNumber, Command y CommandData, y el polinomio
+          generador definido por la ecuacion de orden 8: x8+x2+x+1 = 1 0000 0111
+          El residuo pasa por una compuerta XOR con el StuffingKey = 0x55 = 0101 0101
+DataLength: Numero de bytes en PacketNumber, Command y CommandData, este valor pasa por una
+            compuerta XOR con el StuffingKey = 0x55 = 0101 0101
+
+Comandos:
+
+'''Paquetes
+   packet0 : InitAck
+            Respuesta para iniciar la conexion
+
+   packet1 : GetStimulationMode
+            Obtener el modo de estimulacion actual
+
+   packet2 : InitChannelListMode
+            Inicializa la estimulacion
+            Parametros:  -Factor de frecuencia baja
+                         -Seleccionar Canales activos
+                         -Seleccionar Canales activos de baja frecuencia
+                         -Intervalo de pulso codificado
+                         -Intervalo de estimulacion principal codificado (MSL LSB)
+                         -Ejecucion de Canal
+
+   packet3 : StartChannelListMode
+            Empieza y actualiza la estimulacion
+            Parametros:  -Modo (single pulso, doublet, triplet)
+                         -Ancho de pulso (MSB LSB)(De 0 a 500us)
+                         -Corriente
+
+   packet4 : Watchdog
+
+
+
+InitAck:
+  Constants | PacketNumer | Command | Result | StopByte |
+ f0817f8156       00          02        00        0f
+
+GetStimulationMode:
+  Constants | PacketNumer | Command | StopByte |
+ f081768157       01          0A        0f
+
+InitChanelLIstMode:
+  Constants | PacketNumer | Command | LFF | ActiveChannel | ActiveLowFreqCh | IPIC | MSIC(MSB) | MSIC(LSB) | ChExec | StopByte
+ f08117815c       02          1e       00        01               00           00       00          40          01       0f
+
+StartChannelListMode:
+  Constants | PacketNumer | Command | Mode | PulseWidth(MSB) | PulseWidth(LSB) | Current | StopByte |
+ f081d08153       03          20       00        01               5e                05        0f
+
+ Watchdog:
+   Constants | PacketNumer | Command | StopByte |
+ f0811d8157       04          04        0f
+
+
+f0817f81560002000ff081768157010A0ff08117815c021e000100000040010ff081e08153032000015e050ff0811d815704040f
