@@ -32,7 +32,7 @@ else:
         # Send Init packet
         id = node.packet_count + 1
         packet = rsp.rsPacket(id, 'Init', [rsp.rsPacket.VERSION])
-        print('Sending ' + str(packet))
+        print('Sending   ' + str(packet))
         node.send_packet(packet)
         # Check for InitAck packet
         bytes = node.receive_packet()

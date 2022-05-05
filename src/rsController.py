@@ -31,6 +31,6 @@ else:
             if packet.packet_type == 'Init':
                 id = packet.packet_id
                 packet = rsp.rsPacket(id, 'InitAck', [rsp.rsPacket.VERSION])
-                print('Sending ' + str(packet))
+                print('Sending   ' + str(packet))
                 node.send_packet(packet)
                 break
