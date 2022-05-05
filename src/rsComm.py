@@ -40,7 +40,7 @@ class rsComm():
     # Constructor from device path
     def __init__(self, port_path):
         # Save device path
-        self.port_path = port_path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
+        self.port_path = port_path
         # Create serial port
         self.port = serial.Serial(self.port_path)
         # Configure serial port
