@@ -15,7 +15,7 @@ import sys
 import serial
 
 # RehaStim packet library
-import rsPacket as rsp
+from rsPacket import RSPACKET
 
 # Serial packet transceiver class
 
@@ -32,8 +32,8 @@ class rsComm():
                }
 
     # Packet related constants
-    START_BYTE = rsp.rsPacket.START_BYTE.to_bytes(1, 'little')
-    STOP_BYTE = rsp.rsPacket.STOP_BYTE.to_bytes(1, 'little')
+    START_BYTE = RSPACKET.START_BYTE.to_bytes(1, 'little')
+    STOP_BYTE = RSPACKET.STOP_BYTE.to_bytes(1, 'little')
 
     ### Instance methods
 
@@ -56,7 +56,7 @@ class rsComm():
     # Send packet
     def send_packet(self, packet):
         # Write byte string
-        self.port.write(packet.get_packet_as_bytes())
+        self.port.write(packet.get_packet())
         # Update packet count
         self.packet_count = (self.packet_count + 1) % 256
 
@@ -70,7 +70,7 @@ class rsComm():
             for i in range(4):
                 packet += self.port.read()
             # Collect data bytes
-            datalength = rsp.rsPacket.stuff_byte(packet[-1])
+            datalength = RSPACKET.stuff_byte(packet[-1])
             for i in range(datalength):
                 packet += self.port.read()
             # Collect stop byte
@@ -93,21 +93,21 @@ if __name__ == '__main__':
         node = rsComm(sys.argv[2])
         if sys.argv[1] == 'sender':
             # Send one packet of each, with arbitrary payload data
-            for type in rsp.rsPacket.TYPES:
+            for type in RSPACKET.TYPES:
                 # Define id from current packet count
                 id = node.packet_count + 1
-                packet = rsp.rsPacket(id, type, [0x80, 0x40, 0x20, 0x10])
+                packet = RSPACKET(packet=(id, type, [0x80, 0x40, 0x20, 0x10]))
                 print('Sending ' + str(packet))
                 node.send_packet(packet)
         if sys.argv[1] == 'receiver':
             # Read and parse packets until last type is sent
-            last_type = list(rsp.rsPacket.TYPES)[-1]
+            last_type = list(RSPACKET.TYPES)[-1]
             type = ''
             while type != last_type:
                 # Read packet as byte string
                 bytes = node.receive_packet()
                 if bytes:
                     # Parse packet
-                    packet = rsp.rsPacket.parse_packet(0, bytes)
+                    packet = RSPACKET(raw_packet=bytes)
                     print('Receiving ' + str(packet))
-                    type = packet.packet_type
+                    type = packet._type

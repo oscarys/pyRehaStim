@@ -14,7 +14,7 @@ import sys
 import time
 
 # RehaStim packet/comm libraries
-import rsPacket as rsp
+from rsPacket import RSPACKET
 import rsComm as rsc
 
 # Simulator parameters
@@ -31,14 +31,14 @@ else:
     while True:
         # Send Init packet (restart on id overflow over 255)
         id = (node.packet_count + 1) % 256
-        packet = rsp.rsPacket(id, 'Init', [rsp.rsPacket.VERSION])
+        packet = RSPACKET(packet=(id, 'Init', [RSPACKET.VERSION]))
         print('Sending   ' + str(packet))
         node.send_packet(packet)
         # Check for InitAck packet
         bytes = node.receive_packet()
         if bytes:
             # Parse packet
-            packet = rsp.rsPacket.parse_packet(0, bytes)
+            packet = RSPACKET(raw_packet=bytes)
             print('Receiving ' + str(packet))
             if packet.packet_type == 'InitAck':
                 break
