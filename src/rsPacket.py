@@ -95,13 +95,17 @@ class rsPacket:
 
     # Packet print as text
     def __str__(self):
-        packet_list = self.get_packet_as_list()
+        packet_dec = self.get_packet_as_dec()
         packet_bytes = self.get_packet_as_bytes()
-        return f'[{self.packet_id:03d}] {self.packet_type:23s}: {packet_list} \t {packet_bytes}'
+        return f'[{self.packet_id:03d}] {self.packet_type:23s}: {packet_dec} \t {packet_bytes}'
 
     # Build and return packet as a byte list
     def get_packet_as_list(self):
         return self.__packet_lead + self.__packet_payload + self.__packet_trail
+
+    # Build and return packet as a decimal string
+    def get_packet_as_dec(self):
+        return '|'.join([f'{b:03d}' for b in self.get_packet_as_list()])
 
     # Build and return packet as a byte string
     def get_packet_as_bytes(self):
