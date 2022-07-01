@@ -96,8 +96,8 @@ class rsPacket:
     # Packet print as text
     def __str__(self):
         packet_dec = self.get_packet_as_dec()
-        packet_bytes = self.get_packet_as_bytes()
-        return f'[{self.packet_id:03d}] {self.packet_type:23s}: {packet_dec} \t {packet_bytes}'
+        packet_hex = self.get_packet_as_hex()
+        return f'[{self.packet_id:03d}] {self.packet_type:23s}: {packet_dec} \t {packet_hex}'
 
     # Build and return packet as a byte list
     def get_packet_as_list(self):
@@ -106,6 +106,10 @@ class rsPacket:
     # Build and return packet as a decimal string
     def get_packet_as_dec(self):
         return '|'.join([f'{b:03d}' for b in self.get_packet_as_list()])
+    
+    # Build and return packet as a hex string
+    def get_packet_as_hex(self):
+        return '|'.join(['{:>02s}'.format(hex(b)[2:]) for b in self.get_packet_as_list()]).upper()
 
     # Build and return packet as a byte string
     def get_packet_as_bytes(self):
