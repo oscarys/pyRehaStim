@@ -19,7 +19,7 @@ from rsPacket import RSPACKET
 
 # Serial packet transceiver class
 
-class rsComm():
+class RSCOMM():
 
     # Serial configuration parameters
 
@@ -44,7 +44,7 @@ class rsComm():
         # Create serial port
         self.port = serial.Serial(self.port_path)
         # Configure serial port
-        self.port.apply_settings(rsComm.SETTINGS)
+        self.port.apply_settings(RSCOMM.SETTINGS)
         # Initialize packet count
         self.packet_count = 0
 
@@ -90,7 +90,7 @@ if __name__ == '__main__':
         print(f'{sys.argv[0]} [sender|receiver] device')
     else:
         # Create communication node
-        node = rsComm(sys.argv[2])
+        node = RSCOMM(sys.argv[2])
         if sys.argv[1] == 'sender':
             # Send one packet of each, with arbitrary payload data
             for type in RSPACKET.TYPES:

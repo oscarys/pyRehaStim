@@ -15,7 +15,7 @@ import time
 
 # RehaStim packet/comm libraries
 from rsPacket import RSPACKET
-import rsComm as rsc
+from rsComm import RSCOMM
 
 # Simulator parameters
 INIT_REPETITION_TIME = 500
@@ -26,7 +26,7 @@ if len(sys.argv) != 2:
     print(f'{sys.argv[0]} device')
 else:
     # Create communication node
-    node = rsc.rsComm(sys.argv[1])
+    node = RSCOMM(sys.argv[1])
     # Ping controller
     while True:
         # Send Init packet (restart on id overflow over 255)
