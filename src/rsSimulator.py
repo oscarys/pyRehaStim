@@ -29,8 +29,8 @@ else:
     node = rsc.rsComm(sys.argv[1])
     # Ping controller
     while True:
-        # Send Init packet
-        id = node.packet_count + 1
+        # Send Init packet (restart on id overflow over 255)
+        id = (node.packet_count + 1) % 256
         packet = rsp.rsPacket(id, 'Init', [rsp.rsPacket.VERSION])
         print('Sending   ' + str(packet))
         node.send_packet(packet)
