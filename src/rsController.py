@@ -12,25 +12,25 @@ Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 import sys
 
 # RehaStim packet/comm libraries
-import rsPacket as rsp
-import rsComm as rsc
+from rsPacket import RSPACKET
+from rsComm import RSCOMM
 
 # Check command line args
 if len(sys.argv) != 2:
     print(f'{sys.argv[0]} device')
 else:
     # Create communication node
-    node = rsc.rsComm(sys.argv[1])
+    node = RSCOMM(sys.argv[1])
     # Check for Init packet
     while True:
         bytes = node.receive_packet()
         if bytes:
             # Parse packet
-            packet = rsp.rsPacket.parse_packet(0, bytes)
+            packet = RSPACKET(raw_packet=bytes)
             print('Receiving ' + str(packet))
-            if packet.packet_type == 'Init':
-                id = packet.packet_id
-                packet = rsp.rsPacket(id, 'InitAck', [rsp.rsPacket.VERSION])
+            if packet._packet_type == 'Init':
+                pid = packet._packet_id
+                packet = RSPACKET(packet=(pid, 'InitAck', [RSPACKET.VERSION]))
                 print('Sending   ' + str(packet))
                 node.send_packet(packet)
                 break
