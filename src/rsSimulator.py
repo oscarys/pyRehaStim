@@ -40,6 +40,6 @@ else:
             # Parse packet
             packet = RSPACKET(raw_packet=bytes)
             print('Receiving ' + str(packet))
-            if packet.packet_type == 'InitAck':
-                break
+#            if packet.packet_type == 'InitAck':
+#                break
         time.sleep(INIT_REPETITION_TIME/1000)
